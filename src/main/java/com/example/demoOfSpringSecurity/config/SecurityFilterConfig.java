@@ -42,10 +42,30 @@ public class SecurityFilterConfig {
 
 
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
+//        httpSecurity.csrf(csrf->csrf.disable() );
+//        httpSecurity.authorizeHttpRequests(request-> request.requestMatchers("/k/create").permitAll().requestMatchers("/k/get").hasRole("ADMIN").requestMatchers("/k/getAlluser").hasRole("ADMIN").anyRequest().authenticated());
+//        httpSecurity.formLogin(Customizer.withDefaults());
+//        httpSecurity.httpBasic(Customizer.withDefaults());
+//        return  httpSecurity.build();
+//    }
+
+
+
+
+
+
+// 25 aug login
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
         httpSecurity.csrf(csrf->csrf.disable() );
-        httpSecurity.authorizeHttpRequests(request-> request.requestMatchers("/k/create").permitAll().requestMatchers("/k/get").hasRole("ADMIN").requestMatchers("/k/getAlluser").hasRole("ADMIN").anyRequest().authenticated());
+        httpSecurity.authorizeHttpRequests(request->
+                request.requestMatchers("/k/create").permitAll().
+                        requestMatchers("/k/login").permitAll()
+                        .requestMatchers("/k/profile").authenticated()
+                        .requestMatchers("/k/get/**").hasRole("ADMIN")
+                        .requestMatchers("/k/getAlluser").hasRole("ADMIN").anyRequest().authenticated());
         httpSecurity.formLogin(Customizer.withDefaults());
         httpSecurity.httpBasic(Customizer.withDefaults());
         return  httpSecurity.build();
