@@ -9,6 +9,7 @@ import com.example.demoOfSpringSecurity.exception.UserNotFoundException;
 import com.example.demoOfSpringSecurity.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,15 +74,15 @@ public class UserServiceImpl  implements  UserService {
 //     return  null;
 //    }
 
-
+// optimized login method
     @Override
     public ResponseDto login(String username, String password) {
         NewUserrr user = repo.findByEmail(username).orElseThrow(() -> new UserNotFoundException("User not found with username : " + username));
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+        passwordEncoder.matches(password, user.getPassword());
             return mapper.map(user, ResponseDto.class);
         }
-        return null;
-    }
+
+
 
     @Override
     public ResponseDto getCurrentUserProfile(String username) {
@@ -93,20 +94,36 @@ public class UserServiceImpl  implements  UserService {
         return null;
     }
 
-    @Override
+
+
+
+
+
+
+
+      @Override
     public ResponseDto profileUpdate(String username, ProfileUpdateDto profileUpdateDto) {
 
-        NewUserrr user = repo.findByEmail(username).get();
-        if (user !=null) {
-            if (profileUpdateDto.getEmail() != null & profileUpdateDto.getUsername() != null & profileUpdateDto.getPassword() != null) {
-                user.setPassword(passwordEncoder.encode(profileUpdateDto.getPassword()));
-                user.setEmail(profileUpdateDto.getEmail());
-                user.setUsername(profileUpdateDto.getUsername());
+        NewUserrr user = repo.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("user not found "));
 
-                return mapper.map(user, ResponseDto.class);
+            if (profileUpdateDto.getEmail() != null ) {
+                user.setEmail(profileUpdateDto.getEmail());
+            }
+                if(profileUpdateDto.getUsername() != null ) {
+                    user.setUsername(profileUpdateDto.getUsername());
+                }
+                if(profileUpdateDto.getPassword() != null){
+                    user.setPassword(passwordEncoder.encode(profileUpdateDto.getPassword()));
+                }
+                return mapper.map(repo.save(user), ResponseDto.class);
             }
 
-        }
-        return null;
-    }
+
+
+
+
+
+
+
+
 }
