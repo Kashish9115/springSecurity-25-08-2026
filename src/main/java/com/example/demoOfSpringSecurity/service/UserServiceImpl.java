@@ -1,6 +1,6 @@
 package com.example.demoOfSpringSecurity.service;
 
-import com.example.demoOfSpringSecurity.config.SecurityFilterConfig;
+
 import com.example.demoOfSpringSecurity.dto.ProfileUpdateDto;
 import com.example.demoOfSpringSecurity.dto.RequestDto;
 import com.example.demoOfSpringSecurity.dto.ResponseDto;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -97,7 +97,7 @@ public class UserServiceImpl  implements  UserService {
     public ResponseDto profileUpdate(String username, ProfileUpdateDto profileUpdateDto) {
 
         NewUserrr user = repo.findByEmail(username).get();
-        if (user != null) {
+        if (user !=null) {
             if (profileUpdateDto.getEmail() != null & profileUpdateDto.getUsername() != null & profileUpdateDto.getPassword() != null) {
                 user.setPassword(passwordEncoder.encode(profileUpdateDto.getPassword()));
                 user.setEmail(profileUpdateDto.getEmail());

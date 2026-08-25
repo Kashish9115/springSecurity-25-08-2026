@@ -4,7 +4,6 @@ import com.example.demoOfSpringSecurity.dto.LoginDto;
 import com.example.demoOfSpringSecurity.dto.ProfileUpdateDto;
 import com.example.demoOfSpringSecurity.dto.RequestDto;
 import com.example.demoOfSpringSecurity.dto.ResponseDto;
-import com.example.demoOfSpringSecurity.entity.NewUserrr;
 import com.example.demoOfSpringSecurity.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
