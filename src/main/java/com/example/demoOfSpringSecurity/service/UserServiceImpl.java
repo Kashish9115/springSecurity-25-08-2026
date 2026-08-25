@@ -97,16 +97,12 @@ public class UserServiceImpl  implements  UserService {
 
 
 
-
-
-
-
       @Override
     public ResponseDto profileUpdate(String username, ProfileUpdateDto profileUpdateDto) {
 
         NewUserrr user = repo.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("user not found "));
 
-            if (profileUpdateDto.getEmail() != null ) {
+            if (profileUpdateDto.getEmail() != null & !repo.existsByEmail(profileUpdateDto.getEmail())) {
                 user.setEmail(profileUpdateDto.getEmail());
             }
                 if(profileUpdateDto.getUsername() != null ) {

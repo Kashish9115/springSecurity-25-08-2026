@@ -13,4 +13,6 @@ public interface UserRepo  extends JpaRepository<NewUserrr, Integer> {
 
 
   List<NewUserrr> findByRoleIgnoreCase(String role);
+
+  boolean   existsByEmail(String email);
 }
