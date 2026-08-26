@@ -1,8 +1,6 @@
 package com.example.demoOfSpringSecurity.service;
 
-import com.example.demoOfSpringSecurity.dto.ProfileUpdateDto;
-import com.example.demoOfSpringSecurity.dto.RequestDto;
-import com.example.demoOfSpringSecurity.dto.ResponseDto;
+import com.example.demoOfSpringSecurity.dto.*;
 import com.example.demoOfSpringSecurity.entity.NewUserrr;
 
 import java.util.List;
@@ -19,7 +17,9 @@ public interface UserService {
     List<ResponseDto> getAll();
 
 
-    ResponseDto login(String username, String password);
+    //ResponseDto login(String username, String password);
+
+    LoginResponseDto login(LoginDto loginDto);
 
 
   ResponseDto  getCurrentUserProfile(String username);

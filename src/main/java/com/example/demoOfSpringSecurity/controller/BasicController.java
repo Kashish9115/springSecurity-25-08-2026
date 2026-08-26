@@ -1,9 +1,6 @@
 package com.example.demoOfSpringSecurity.controller;
 
-import com.example.demoOfSpringSecurity.dto.LoginDto;
-import com.example.demoOfSpringSecurity.dto.ProfileUpdateDto;
-import com.example.demoOfSpringSecurity.dto.RequestDto;
-import com.example.demoOfSpringSecurity.dto.ResponseDto;
+import com.example.demoOfSpringSecurity.dto.*;
 import com.example.demoOfSpringSecurity.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,8 +47,8 @@ public class BasicController {
     }
 
     @PostMapping("/login")
-    public  ResponseEntity<ResponseDto> login(@RequestBody LoginDto  loginDto){
-        ResponseDto login = service.login(loginDto.getUsername(), loginDto.getPassword());
+    public  ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto  loginDto){
+       LoginResponseDto login = service.login(loginDto);
         return  ResponseEntity.ok(login);
 
     }
