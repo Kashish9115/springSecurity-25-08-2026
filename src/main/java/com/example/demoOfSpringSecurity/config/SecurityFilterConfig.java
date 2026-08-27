@@ -2,6 +2,7 @@ package com.example.demoOfSpringSecurity.config;
 
 import com.example.demoOfSpringSecurity.customJwt.JwtService;
 import com.example.demoOfSpringSecurity.filter.JwtFilter;
+import com.example.demoOfSpringSecurity.handler.OAuth2LoginSuccessHandler;
 import com.example.demoOfSpringSecurity.service.CustomUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,7 +89,12 @@ public class SecurityFilterConfig {
 
 // 26 aug jwt
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtService jwtService , CustomUserService customUserService, AuthenticationEntryPoint authenticationEntryPoint){
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtService jwtService
+            , CustomUserService customUserService,
+                                                   AuthenticationEntryPoint authenticationEntryPoint
+
+    , OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler
+    ){
 
      JwtFilter jwtFilter =new JwtFilter(jwtService, customUserService);
 
@@ -98,14 +104,15 @@ public class SecurityFilterConfig {
         httpSecurity.csrf(csrf->csrf.disable() );
 
         httpSecurity.authorizeHttpRequests(request->
-                request.requestMatchers("/k/create").permitAll().
+                request.requestMatchers("/k/create","/oauth2/**","/login/**").permitAll().
                         requestMatchers("/k/login").permitAll()
                         .requestMatchers("/k/profile").authenticated()
                         .requestMatchers("/k/get/**").hasRole("ADMIN")
                         .requestMatchers("/k/getAlluser").hasRole("ADMIN").anyRequest().authenticated());
         httpSecurity.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex-> ex.authenticationEntryPoint(authenticationEntryPoint))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2->oauth2.successHandler(oAuth2LoginSuccessHandler));
         return  httpSecurity.build();
     }
 

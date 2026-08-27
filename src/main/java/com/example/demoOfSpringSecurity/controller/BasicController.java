@@ -2,6 +2,7 @@ package com.example.demoOfSpringSecurity.controller;
 
 import com.example.demoOfSpringSecurity.dto.*;
 import com.example.demoOfSpringSecurity.service.UserServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -46,12 +48,33 @@ public class BasicController {
        return  ResponseEntity.ok(all);
     }
 
+    // jwt login controller
+//    @PostMapping("/login")
+//    public  ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto  loginDto){
+//       LoginResponseDto login = service.login(loginDto);
+//        return  ResponseEntity.ok(login);
+//
+//    }
+
+
+// oauth2 login controller
+
+
     @PostMapping("/login")
-    public  ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto  loginDto){
-       LoginResponseDto login = service.login(loginDto);
+    public  ResponseEntity<LoginResponseDto> login(@RequestBody(required = false) LoginDto  loginDto, HttpServletResponse httpServletResponse) throws IOException {
+        if(loginDto==null){
+            httpServletResponse.sendRedirect(
+                "/oauth2/authorization/github"
+            );
+            return  null;
+        }
+
+        LoginResponseDto login = service.login(loginDto);
         return  ResponseEntity.ok(login);
 
     }
+
+
 
 
 

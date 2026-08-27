@@ -1,16 +1,15 @@
 package com.example.demoOfSpringSecurity.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class NewUserrr {
 
     @Id
@@ -28,5 +27,10 @@ public class NewUserrr {
 
     @Column(nullable = false)
     private String role;
+
+    @Column(nullable = true)
+ private    String provider;
+    @Column(nullable = true)
+   private String providerId;
 
 }
